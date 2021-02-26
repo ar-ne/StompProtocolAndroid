@@ -73,13 +73,13 @@ public abstract class AbstractConnectionProvider implements ConnectionProvider {
     @Override
     public Completable send(String stompMessage) {
         return Completable.fromCallable(() -> {
-            if (getSocket() == null) {
-                throw new IllegalStateException("Not connected");
-            } else {
+            // if it's null, just DO NOTHING!!!!!!!
+            //TODO: fix race condition when getSocket is null or catch that Exception
+            if (getSocket() != null) {
                 Log.d(TAG, "Send STOMP message: " + stompMessage);
                 rawSend(stompMessage);
-                return null;
             }
+            return null;
         });
     }
 
